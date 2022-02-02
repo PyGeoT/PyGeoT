@@ -1,0 +1,198 @@
+import os
+import numpy as np
+import pandas as pd
+
+lookup0 = '    1'
+lookup1 = '    2'
+lookup2 = '    3'
+lookup3 = 'LOG10   al+3'
+lookup4 = 'LOG10   mg+2'
+
+fp2 = open("file1.txt", "w")
+fp2.write('# de Agua ' + '  T(C) de Agua ' + '\t' + 'Quartz' + '\t\t' + 'Am. Silica' + '\t' + 'Chalcedony' + '\t' + 'Na-K-Ca' + '\t\t' + 'Na-K(G88) ' + '   Na-K (F79)' + '\t\t' + 'K-Mg ' + '\t\t' + 'Na-Li ' + '\t\t' + 'Temperature ' + '\t' + ' Dif.T ' + '\t\t' + 'min RMED  ' + '\t' + 'RMSE' + '\t\t' + 'min RMSE' + '\t' + 'SDEV' + '\t\t' + 'min SDEV' + '\t' + 'MEAN' + '\t' + '    minimum MEAN' + '    Cross Average  ' + '   T. Stdev' + '\t' + '     T. Range A ' + '    T. Range B' + '\t' + '    T. Spread' + '       Trmed-Tstatav' + '\t' + 'RMED/nmin     ' + '\t' + 'Grupo' + '\n')
+
+fp3 = open("file2.txt", "w")
+fp3.write('      Al      ' + '            ' + '    Mg   ' + '          Al stdev   ' + '          Al sens   ' + '          Mg stdev   ' + '          Mg sens   '  '\n')
+
+geoT_part1 = pd.read_csv("geoT_part1.txt", header=None)
+geoT_part1 = geoT_part1.values
+
+geoT_part2 = pd.read_csv("geoT_part2.txt", header=None)
+geoT_part2 = geoT_part2.values
+
+geoT_part3 = pd.read_csv("geoT_part3.txt", header =None)
+geoT_part3 = geoT_part3.values
+
+geoT_part4 = pd.read_csv("geoT_part4.txt", header = None)
+geoT_part4 = geoT_part4.values
+
+geoT_part5 = pd.read_csv("geoT_part5.txt", header = None)
+geoT_part5 = geoT_part5.values
+
+grps = pd.read_csv("grupos.txt", header = None)
+
+grupos = []
+for grupo in grps.values:
+    grupos.append(grupo[0].split(' '))
+
+multi_db_data = np.loadtxt('InputWaters_database.txt', delimiter=' ')
+for idw, conc_data in enumerate(multi_db_data[0:5]):
+    concNu = int(conc_data[0])
+    concTmed = conc_data[1]
+    concH = conc_data[2]
+    concNa = conc_data[3]
+    concK = conc_data[4]
+    concMg = conc_data[5]
+    concCa = conc_data[6]
+    concFe = conc_data[7]
+    concCl = conc_data[8]
+    concSO = conc_data[9]
+    concHCO = conc_data[10]
+    concSIO = conc_data[11]
+    concAl = conc_data[12]
+
+##print(concNu, concTmed, concH, concNa, concK, concMg, concCa, concFe, concCl, concSO, concHCO, concSIO, concAl)
+
+
+    for idg, grupo in enumerate(grupos):
+        fp = open ('geot.inp', "w")
+
+        for line in geoT_part1:
+            fp.write(line[0]+ '\n')
+
+        fp.write(str(concNu) + ' ' + str(concTmed) + '    *BATCH*\n')
+
+        for line in geoT_part2:
+            fp.write(line[0]+ '\n')
+
+        for mineral in grupo[1:]:
+            fp.write(mineral + '\n')
+
+        for line in geoT_part3:
+            fp.write(line[0]+ '\n')
+
+        fp.write('yes     25.    300.    5.       4        1\n')
+
+        for line in geoT_part4:
+            fp.write(line[0]+ '\n')
+
+        fp.write('H+       3    ' + str(concH) + '    ' + str(concH)+'\n')
+        fp.write('H2O      1     1.000E+00              1.000E+00\n')
+        fp.write('Na+      1    ' + str(concNa) + '    ' + str(concNa)+'\n')
+        fp.write('K+       1    ' + str(concK) + '    ' + str(concK)+'\n')
+        fp.write('Mg+2     1    ' + str(concMg) + '    ' + str(concMg) + '@'+'\n')
+        fp.write('Ca+2     1    ' + str(concCa) + '    ' + str(concCa)+'\n')
+        fp.write('Fe+2     1    ' + str(concFe) + '    ' + str(concFe)+'\n')
+        fp.write('Cl-      1    ' + str(concCl) + '    ' + str(concCl)+'\n')
+        fp.write('SO4-2    1   ' + str(concSO) + '     ' + str(concSO)+'\n')
+        fp.write('HCO3-    1    ' + str(concHCO) + '    ' + str(concHCO)+'\n')
+        fp.write('SiO2(aq) 1    ' + str(concSIO) + '    ' + str(concSIO)+'\n')
+        fp.write('Al+3     1    ' + str(concAl) + '    ' + str(concAl) + '@'+'\n')
+
+        for line in geoT_part5:
+            fp.write(line[0]+ '\n')
+
+        fp.close()
+        
+        os.system('iGeoT1.0-PC64.exe<input_files')
+        
+        with open('geot.out') as geot_out:
+            for  num, line in enumerate(geot_out, 1):
+                if 'BATCH' in line:
+                    numero = str(line.split(' ')[0])
+                    medt = line.split(' ')[1]
+
+                elif 'Quartz  (Four&Pott82)' in line:
+                      quartz = line[28:36]
+
+                elif 'Am.Silica    (Four77)' in line:
+                      amsilica = line[28:36]
+
+                elif 'Chalcedony' in line:
+                      Chalcedony = line[28:36]
+
+                elif 'Na-K-Ca' in line:
+                      NaKCa = line[28:36]
+
+                elif 'Na-K         (Gigg88)' in line:
+                      NaKG = line[28:36]
+                      NaKF = line[45:53]
+
+                elif 'K-Mg' in line:
+                      KMg = line[28:36]
+
+                elif 'Na-Li' in line:
+                      NaLi = line[28:36]
+
+                elif 'T(C) at minimum RMED' in line:
+                    temperature = line[29:36]
+                    dift = float(medt)- float(temperature)
+                    minimumRMED = line[52:62]
+                    Tspread = line[85:93]
+
+                elif 'T(C) at minimum RMSE' in line:
+                      RMSE = line[29:36]
+                      minimumRMSE = line[52:62]
+
+                elif ' T(C) at minimum SDEV' in line:
+                      SDEV = line[29:36]
+                      minimumSDEV = line[52:62]
+
+                elif 'T(C) at minimum MEAN' in line:
+                      MEAN = line[29:36]
+                      minimumMEAN = line[52:62]
+
+                elif 'T(C) cross average' in line:
+                      crossAverage = line[29:36]
+                      TcrossSDEV = line[52:60]
+                      Trangea = line[86:92]
+                      Trangeb = line[94:101]
+
+                elif 'optimgeot(1)' in line:
+                      Trmed = line[84:94]
+
+                elif 'optimgeot(2)' in line:
+                    nmin = line[84:94]
+                    
+            fp2.write(numero.strip() + '\t\t' + str(medt).strip() + '\t\t' + str(quartz).strip() + '\t\t' + str(amsilica).strip() + '\t\t' + str(Chalcedony).strip() + '\t\t'
+                                               + str(NaKCa).strip() + '\t\t' + str(NaKG).strip() + '\t\t' + str(NaKF).strip() + '\t\t' + str(KMg).strip() + '\t\t'
+                                               + str(NaLi).strip() + '\t\t' + str(temperature).strip() +'\t\t' + str(round(dift)).strip() +
+                                        '\t\t' + str(minimumRMED).strip() + '\t\t' + str(RMSE).strip() + '\t\t' + str(minimumRMSE).strip() + '\t\t' + str(SDEV).strip() + '\t\t' + str(minimumSDEV).strip() +
+                                        '\t\t' + str(MEAN).strip() + '\t\t' + str(minimumMEAN).strip() + '\t\t' + str(crossAverage).strip() + '\t\t' + str(TcrossSDEV).strip() +
+                                        '\t\t' + str(Trangea).strip() + '\t\t' + str(Trangeb).strip() +
+                                        '\t\t' + str(Tspread).strip() + '\t\t' +  str(Trmed).strip() + '\t\t' + str(nmin).strip() + '\t\t' + str(grupo[0]).strip() + '\n')
+
+            with open('igeot.par') as myFile:
+                      for num, line in enumerate(myFile, 1):
+                          if lookup0 in line:
+                              fp3 = open('res_AlMg.txt', "a")
+                              Alopt = line[6:28]
+                              fp3.write(str(Alopt) + '       ')
+
+                          elif lookup1 in line:
+                              fp3 = open('res_AlMg.txt', "a")
+                              Mgopt = line[6:28]
+                              fp3.write(str(Mgopt) + '       ')
+
+            with open('igeot.out') as myFile:
+                      for num, line in enumerate(myFile, 1):
+                          if lookup3 in line:
+                              fp3 = open('res_AlMg.txt', "a")
+                              Alstdev = line[88:99]
+                              Alsens = line[111:119]
+                              fp3.write(str(Alstdev) + '       ')
+                              fp3.write(str(Alsens) + '       ')
+
+                          elif lookup4 in line:
+                              fp3 = open('res_AlMg.txt', "a")
+                              Mgstdev = line[88:99]
+                              Mgsens = line[111:119]
+                              fp3.write(str(Mgstdev) + '     ')
+                              fp3.write(str(Mgsens) + '\n')
+                              
+
+                        
+
+                    
+fp2.close()
+fp3.close()
