@@ -1,0 +1,240 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+import matplotlib as mpl
+
+mpl.rcParams['figure.dpi'] = 800
+
+
+def extraerDataAgua(agua_id, data_filtrada):
+    data_agua = []
+    for row in data_filtrada:
+        if row[0] == agua_id:
+            data_agua.append(row)
+
+    return data_agua
+
+
+def getMineralValues(grupos_20, grupos_minerales):
+    cell_color = []
+    cell_values = []
+    mineral_rows = []
+
+    minerales = []
+    minerales_grupos = []
+    for id_grupo in grupos_20:
+        for mineral in grupos_minerales[id_grupo-1][1:]:
+            minerales.append(mineral)
+
+            if mineral not in minerales_grupos:
+                minerales_grupos.append(mineral)
+
+    mineral_freq = [minerales.count(m) for m in minerales_grupos]
+    x_pos_ = [i for i, _ in enumerate(minerales_grupos)]
+
+    dict_min = {}
+
+    for j, v in enumerate(x_pos_):
+        dict_min[v] = mineral_freq[j]
+
+    dict_min = {k: v for k, v in sorted(dict_min.items(), key=lambda item: item[1], reverse=True)}
+
+    for k in dict_min:
+        mineral_rows.append(minerales_grupos[k])
+
+    for mineral in mineral_rows:
+        tmp = []
+        tmp_color = []
+        for id_grupo in grupos_20:
+            if mineral in grupos_minerales[id_grupo-1][1:]:
+                tmp.append('X')
+                tmp_color.append('#56b5fd')
+            else:
+                tmp.append(' ')
+                tmp_color.append('w')
+
+        cell_values.append(tmp)
+        cell_color.append(tmp_color)
+
+    mineral_rows = []
+    for k in dict_min:
+        mineral_rows.append(minerales_grupos[k] + " (" + str(dict_min[k]) + ")")
+
+    return mineral_rows, cell_values, cell_color
+
+
+data = np.loadtxt('newfile.txt', dtype='float')
+grupos_minerales = np.loadtxt('grupos.txt', dtype='str')
+minerales_grupos = np.loadtxt('minerales.txt', dtype='str')
+
+data_filtrada = []
+for row in data:
+    if row[25] <= 0.01:
+        if row[23] <= 20:
+            data_filtrada.append(row)
+
+fp = open('aguas_filtradas.txt', "w")
+for row in data_filtrada:
+    for column in row:
+        fp.write(str(column) + '\t\t')
+    fp.write('\n')
+fp.close()
+
+agua_inicial = int(data_filtrada[0][0])
+agua_final   = int(data_filtrada[-1][0]) + 1
+
+for agua_id in range(agua_inicial, agua_final):
+    data_agua = extraerDataAgua(agua_id, data_filtrada)
+    data_agua = np.array(data_agua)
+    
+    #GraficaConCuadro
+    data_sorted = data_agua[np.argsort(data_agua[:, 23])]
+
+    num_grps = 20
+
+    if len(data_sorted[:, 10]) < num_grps:
+        num_grps = len(data_sorted[:, 10])
+
+    grupos_20 = data_sorted[0:num_grps, 26].astype(int)
+    grupo_id_columns = grupos_20.astype(str)
+    mineral_rows, cell_values, cells_color = getMineralValues(grupos_20, grupos_minerales)
+
+
+    # example data
+    x = np.arange(0, num_grps)
+    y = data_sorted[0:num_grps, 10]
+    dstd = data_sorted[0:num_grps, 20]
+
+    PyGeoT = np.median(y)
+    sigma = np.std(y)
+    spread = max(y)-min(y)
+
+    
+    textstr = '\n'.join((r'$\mathrm{PyGeoT}=%.0f$°C' % (PyGeoT, ),
+                         r's=%.0f°C' % (sigma, ),
+                         r'Tspread=%.0f°C' % (spread, )))
+
+
+    textgeo = '\n'.join((r'$Quartz = %.0f$°C' % (data_sorted[0, 2],),
+                         r'$Chalcedony = %.0f$°C' % (data_sorted[0, 4],),
+                         r'$Na-K(G) = %.0f$°C' % (data_sorted[0, 6],),
+                         r'$Na-K-Ca = %.0f$°C' % (data_sorted[0, 5],),
+                         r'K-Mg = 155°C',
+                         r'$BHT = %.0f$°C' % (data_sorted[0, 1],)))
+
+    y_Mg = (10**data_sorted[:num_grps, 28]) * 24305
+    y2 = []
+    
+    for i in range(len(x)):
+        y2.append(0.04) #Here, the user can change the measured value of Mg
+
+    fig, ax1 = plt.subplots(figsize=(12, 6))
+    
+    ax = plt.gca()
+
+##    ax.grid(zorder=0)
+    ax.text(1.11, 0.48, textstr + '\n' + textgeo, style='oblique',
+            horizontalalignment='left', verticalalignment='top', transform=ax.transAxes,
+            bbox={'boxstyle': "round", 'facecolor': '#56b5fd', 'pad': 0.5})
+
+
+    x2 = [-1.5, -0.5, 0.5, 1.6, 2.7, 3.6, 4.7, 5.8, 6.8, 7.9, 9, 10, 11.1, 12.1, 13.2, 14.3, 15.4, 16.5, 17.5, 18.6]
+
+
+    ax1.set_xlabel(' ')
+    ax1.set_ylabel('Temperature (°C)')
+    ax1.errorbar(x2, y, yerr=dstd, fmt='o', ecolor='black', capsize=3, markersize=4., label='Estimated T')
+    ax1.tick_params(axis='y')
+    ax1.margins(x=0.03)
+    ax1.set_xticks([]) 
+    # ax1.set_xticks(x2)
+    ax1.set_yticks([80, 90, 100, 110, 120])
+
+    ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
+
+    color = 'tab:blue'
+    ax2.set_ylabel('Concentration (mg/L)')  # we already handled the x-label with ax1
+    ax2.plot(x2, y2, color='orange', label='Analyzed Mg') #RedLine
+    ax2.scatter(x2, y_Mg, marker='s', s=14., c='orange', zorder=5, label='Optimized Mg')
+    ax2.set_yscale('log')
+    ax2.set_ylim(10**-4, 10**2)
+    ax2.margins(x=0.03)
+    # ax2.tick_params(axis='y')
+    # ax2.set_yticks([0.0, 0.02, 0.04, 0.06, 0.08, 0.1])
+    
+    
+    median = np.median(y_Mg)
+    textstr = '\n'.join((r'Mg (mg/L)',
+                         r'$Opt.=%.4f$' % (median, ),
+                         r'$Analyzed=%.3f$' % (y2[0], )))
+    
+    ax.text(1.11, -0.40, textstr, style='oblique',
+            horizontalalignment='left', verticalalignment='top', transform=ax.transAxes,
+            bbox={'boxstyle': "round", 'facecolor': 'orange', 'alpha': 0.5, 'pad': 0.5})
+    
+    #Datos optimizacion Mg INICIO
+    y4 = (10**data_sorted[:num_grps, 27]) * 27000
+    y3 = []
+    
+    for i in range(len(x)):
+        y3.append(0.0000)
+
+    
+    ax3 = ax1.twinx()
+##    ax3.plot(x2, y3, color='red', label='Measured Al')  #OrangeLine
+    ax3.set_yticks([])
+    ax3.margins(x=0.03)
+    
+    
+    ax4 = ax1.twinx()
+    ax4.scatter(x2, y4, marker='^', s=14., color='red',  label='Optimized Al')
+    ax4.set_yscale('log')
+    ax4.set_ylim(10**-4, 10**2)
+    ax4.set_yticks([])
+    ax4.margins(x=0.03)
+    #Datos optimizacion Mg FINAL
+    
+    median = np.median(y4)    
+    textstr = '\n'.join((r'Al (mg/L)',
+                         r'$Opt.=%.4f$' % (median, ),
+                         r'Analyzed = n.m.',))
+    
+    ax.text(1.11, -0.70, textstr, style='oblique',
+            horizontalalignment='left', verticalalignment='top', transform=ax.transAxes,
+            bbox={'boxstyle': "round", 'facecolor': 'red', 'alpha': 0.5, 'pad': 0.5})
+    
+    the_table = plt.table(cellLoc='center', cellColours=cells_color, 
+                          rowLabels=mineral_rows,     rowLoc='left',
+                          colLabels=grupo_id_columns, colLoc='center',
+                          fontsize=7.0, 
+                          bbox=[0.0, -1.50, 1.00, 1.35])
+
+    the_table.auto_set_font_size(False)
+    the_table.set_fontsize(10.0)
+    
+    # the_table.auto_set_column_width(col=list(range(len(grupo_id_columns)))) 
+    
+    for cell in the_table._cells:
+        # print(cell, the_table._cells[cell].get_text())
+        if cell[0] == 0:
+            the_table._cells[cell].get_text().set_fontsize(8)
+            the_table._cells[cell].get_text().set_rotation(90)
+            the_table._cells[cell].set_height(0.07)        
+
+    # Adjust layout to make room for the table:
+    plt.subplots_adjust(left=0.15, bottom=0.52, right=0.85)
+    
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    lines3, labels3 = ax3.get_legend_handles_labels() #Comment if the Al line will not be used
+    lines4, labels4 = ax4.get_legend_handles_labels() #CComment if the Al line will not be used
+    plt.legend(lines1 + lines2 + lines3 + lines4, labels1 + labels2 + labels3 + labels4, bbox_to_anchor=(1.29, 1.05))
+
+    
+
+    plt.title('HAWTHORNE, NV (ECPT11)')
+    fig.tight_layout()  # otherwise the right y-label is slightly clipped
+##    plt.savefig('New Optimized Al en agua ' + str(int(agua_id)) + '.eps', format='eps')
+    plt.savefig('PyGeoT_results ' + str(int(agua_id)) + '.png')
+    plt.close()
+    # plt.show()
