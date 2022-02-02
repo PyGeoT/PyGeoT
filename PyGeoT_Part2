@@ -1,0 +1,21 @@
+import numpy as np
+
+data_file1 = np.loadtxt('file1.txt')
+data_file2 = np.loadtxt('file2.txt')
+
+fp = open('newfile.txt', "w")
+for i in range(len(data_file1)):
+    if data_file2[i, 3] == 1.0 or \
+    data_file2[i, 0] == -1.000000000000E+01 or data_file2[i, 0] == -4.400000000000E+00 \
+    or data_file2[i, 1] == -2.780000000000E+00:
+        continue 
+    else:
+        for data in data_file1[i]:
+            fp.write(str(data) + '\t\t')
+
+        for data in data_file2[i]:
+            fp.write(str(data) + '\t\t')
+
+        fp.write('\n')
+
+fp.close()
