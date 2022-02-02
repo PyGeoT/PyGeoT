@@ -31,9 +31,9 @@ geoT_part5 = geoT_part5.values
 
 grps = pd.read_csv("grupos.txt", header = None)
 
-grupos = []
-for grupo in grps.values:
-    grupos.append(grupo[0].split(' '))
+groups = []
+for group in grps.values:
+    groups.append(grouop[0].split(' '))
 
 multi_db_data = np.loadtxt('InputWaters_database.txt', delimiter=' ')
 for idw, conc_data in enumerate(multi_db_data[0:5]):
@@ -54,7 +54,7 @@ for idw, conc_data in enumerate(multi_db_data[0:5]):
 ##print(concNu, concTmed, concH, concNa, concK, concMg, concCa, concFe, concCl, concSO, concHCO, concSIO, concAl)
 
 
-    for idg, grupo in enumerate(grupos):
+    for idg, group in enumerate(groups):
         fp = open ('geot.inp', "w")
 
         for line in geoT_part1:
@@ -65,7 +65,7 @@ for idw, conc_data in enumerate(multi_db_data[0:5]):
         for line in geoT_part2:
             fp.write(line[0]+ '\n')
 
-        for mineral in grupo[1:]:
+        for mineral in group[1:]:
             fp.write(mineral + '\n')
 
         for line in geoT_part3:
@@ -160,7 +160,7 @@ for idw, conc_data in enumerate(multi_db_data[0:5]):
                                         '\t\t' + str(minimumRMED).strip() + '\t\t' + str(RMSE).strip() + '\t\t' + str(minimumRMSE).strip() + '\t\t' + str(SDEV).strip() + '\t\t' + str(minimumSDEV).strip() +
                                         '\t\t' + str(MEAN).strip() + '\t\t' + str(minimumMEAN).strip() + '\t\t' + str(crossAverage).strip() + '\t\t' + str(TcrossSDEV).strip() +
                                         '\t\t' + str(Trangea).strip() + '\t\t' + str(Trangeb).strip() +
-                                        '\t\t' + str(Tspread).strip() + '\t\t' +  str(Trmed).strip() + '\t\t' + str(nmin).strip() + '\t\t' + str(grupo[0]).strip() + '\n')
+                                        '\t\t' + str(Tspread).strip() + '\t\t' +  str(Trmed).strip() + '\t\t' + str(nmin).strip() + '\t\t' + str(group[0]).strip() + '\n')
 
             with open('igeot.par') as myFile:
                       for num, line in enumerate(myFile, 1):
