@@ -44,14 +44,13 @@ for idw, conc_data in enumerate(multi_db_data[0:5]):
     concK = conc_data[4]
     concMg = conc_data[5]
     concCa = conc_data[6]
-    concFe = conc_data[7]
-    concCl = conc_data[8]
-    concSO = conc_data[9]
-    concHCO = conc_data[10]
-    concSIO = conc_data[11]
-    concAl = conc_data[12]
+    concCl = conc_data[7]
+    concSO = conc_data[8]
+    concHCO = conc_data[9]
+    concSIO = conc_data[10]
+    concAl = conc_data[11]
 
-##print(concNu, concTmed, concH, concNa, concK, concMg, concCa, concFe, concCl, concSO, concHCO, concSIO, concAl)
+##print(concNu, concTmed, concH, concNa, concK, concMg, concCa, concCl, concSO, concHCO, concSIO, concAl)
 
 
     for idg, group in enumerate(groups):
@@ -71,7 +70,7 @@ for idw, conc_data in enumerate(multi_db_data[0:5]):
         for line in geoT_part3:
             fp.write(line[0]+ '\n')
 
-        fp.write('yes     25.    300.    5.       4        1\n')
+        fp.write('yes     25.    300.    5.       6        1\n')
 
         for line in geoT_part4:
             fp.write(line[0]+ '\n')
@@ -82,7 +81,6 @@ for idw, conc_data in enumerate(multi_db_data[0:5]):
         fp.write('K+       1    ' + str(concK) + '    ' + str(concK)+'\n')
         fp.write('Mg+2     1    ' + str(concMg) + '    ' + str(concMg) + '@'+'\n')
         fp.write('Ca+2     1    ' + str(concCa) + '    ' + str(concCa)+'\n')
-        fp.write('Fe+2     1    ' + str(concFe) + '    ' + str(concFe)+'\n')
         fp.write('Cl-      1    ' + str(concCl) + '    ' + str(concCl)+'\n')
         fp.write('SO4-2    1   ' + str(concSO) + '     ' + str(concSO)+'\n')
         fp.write('HCO3-    1    ' + str(concHCO) + '    ' + str(concHCO)+'\n')
