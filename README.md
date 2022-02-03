@@ -1,6 +1,6 @@
 ### **What is PyGeoT?** ### 
-PyGeoT is a script written in Python language that automates the use of GeoT and iGeoT softwares, performing pre- and post-processing input and ouput files, runs extensive sensitivity analysis, filters results to ease the post-processing of the data, and provides a graph synthesizing the obtained results.
-This script is useful because the ability of PyGeoT to test many mineral assemblages and select a set of minerals to compute a reservoir temperature lets the users eliminate the exhaustive effort of manually examining these assemblages. Also, the statistical and visual analysis of the mineral combinations are facilitated by the post-processing capacity of PyGeoT. 
+PyGeoT is a script written in Python language that automates the execution of GeoT-iGeoT softwares by pre- and post-processing input and ouput files, runs extensive sensitivity analysis, filters results to ease the post-processing of the data, and provides a graph that synthesizes the obtained results.
+This script is useful because the ability of PyGeoT to test many mineral assemblages and select a set of minerals to compute a reservoir temperature lets the users eliminate the exhaustive effort of manually examining these assemblages. Also, the statistical and visual analysis of the mineral combinations is facilitated by the post-processing capacity of PyGeoT. 
 
 ### **Example of PyGeoT graph for one sample** ### 
 ![A](https://user-images.githubusercontent.com/98906501/152246997-d100b213-d766-4f49-b25d-e2a928898f15.png)
