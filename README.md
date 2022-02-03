@@ -9,7 +9,7 @@ To run PyGeoT is requiered:
 - NumPy
 - Matplotlib
 - Pandas
-- GeoT-iGeoT licence
+- GeoT-iGeoT software licence
 - Text file with the chemical compositions of water samples
 - Thermodynamic database
 
