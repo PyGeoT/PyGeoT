@@ -44,4 +44,10 @@ The 20 temperature results are displayed in the upper part of the graph (y1 axis
 PyGeoT was developed during the Ph.D. of M. G. Olguín-Martínez (Ph.D. supervisor: L. Peiffer).<br>
 The project was funded by CONACYT project PN-2016-1998 headed by Loic Peiffer ("Exploración de sistemas geotérmicos mediante estudios geoquímicos y de modelación numérica").<br>
 
-If you use this project's script for your academic work, we encourage you to cite Olguín-Martínez et al., 2022: Olguín-Martínez, M. G., Peiffer, L., Dobson, P., Spycher, N., Inguaggiato, C., Wanner, C., Hoyos, A., Wurl, J., Makovsky, K., & Ruiz-Aguilar, D. (2022). PyGeoT: A tool to automate mineral selection for multicomponent geothermometry. Geothermics, xx, xx-xx.
+If you use this project's script for your academic work, we encourage you to cite Olguín-Martínez et al., 2022: Olguín-Martínez, M. G., Peiffer, L., Dobson, P., Spycher, N., Inguaggiato, C., Wanner, C., Hoyos, A., Wurl, J., Makovsky, K., & Ruiz-Aguilar, D. (2022). PyGeoT: A tool to automate mineral selection for multicomponent geothermometry. Geothermics, xx, xx-xx.<br>
+
+Please feel free to contact us for any questions. We will be happy to help.<br>
+
+- Email: olguinm@cicese.edu.mx
+
+
