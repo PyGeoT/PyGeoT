@@ -41,5 +41,6 @@ The 20 temperature results are displayed in the upper part of the graph (y1 axis
 ![A](https://user-images.githubusercontent.com/98906501/152246997-d100b213-d766-4f49-b25d-e2a928898f15.png)
 
 ### **Citing** ###
-PyGeoT was developed as a Ph.D. project from CICESE.<br>
-If you use this project's script for your academic work, we encourage you to cite Olguín-Martínez et al., 2022
+PyGeoT was developed during the Ph.D. of M. G. Olguín-Martínez (Ph.D. supervisor: L. Peiffer).<br>
+The project was funded by CONACYT project PN-2016-1998 headed by Loic Peiffer ("Exploración de sistemas geotérmicos mediante estudios geoquímicos y de modelación numérica").<br>
+If you use this project's script for your academic work, we encourage you to cite Olguín-Martínez et al., 2022:
