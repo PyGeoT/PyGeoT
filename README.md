@@ -4,7 +4,7 @@ This script is useful because the ability of PyGeoT to test many mineral assembl
 
 
 ### **Requirements** ###
-To run PyGeoT is requiered: 
+For running PyGeoT, you will require: 
 - Python 3.7
 - NumPy
 - Matplotlib
