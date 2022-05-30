@@ -19,7 +19,7 @@ For running PyGeoT, you will require:
 The concentrations must be in mol/L<br>
 First column: number of water (1, 2, 3...)<br>
 Second column: measured temperature<br>
-Third column: pH (it must be entered as the activity of H+. To compute it you can use aH+ = 10^-pH. pH is the measured pH of the water sample)<br>
+Third column: aH+ (H+ activity:  aH+ = 10^-pH)<br>
 Fourth column: Na<br>
 Fifth column: K<br>
 Sixth column: Mg<br>
