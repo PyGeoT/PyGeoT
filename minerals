@@ -1,10 +1,8 @@
-quartz
 albit-lo
 microcli
 muscovit
 illite
 kaolinit
-chalcedo
 clchlore
 clinozoi
 prehnite
@@ -19,3 +17,5 @@ gypsum
 montm-Mg
 beide-Na
 paragoni
+
+Quartz and chalcedony were omitted from the list since they are already included in the Combinations_generator script. 
