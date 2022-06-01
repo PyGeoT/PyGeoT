@@ -172,7 +172,7 @@ for agua_id in range(agua_inicial, agua_final):
             horizontalalignment='left', verticalalignment='top', transform=ax.transAxes,
             bbox={'boxstyle': "round", 'facecolor': 'orange', 'alpha': 0.5, 'pad': 0.5})
     
-    #Datos optimizacion Mg INICIO
+    #Datos optimizacion Al 
     y4 = (10**data_sorted[:num_grps, 27]) * 27000
     y3 = []
     
