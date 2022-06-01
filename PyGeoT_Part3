@@ -192,7 +192,7 @@ for agua_id in range(agua_inicial, agua_final):
     ax4.set_ylim(10**-4, 10**2)
     ax4.set_yticks([])
     ax4.margins(x=0.03)
-    #Datos optimizacion Mg FINAL
+    #Datos optimizacion Al FINAL
     
     median = np.median(y4)    
     textstr = '\n'.join((r'Al (mg/L)',
