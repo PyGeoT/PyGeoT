@@ -1,0 +1,42 @@
+'*'
+#
+######### GASES - always end the list with a star (in quotes or not) even if no gases are listed
+#
+# name:  gas name (H2O must come first)
+# conc:  For H2O (first record): mole frac in wet gas
+#        For other gases (list after H2O): dry gas composition (mol%)
+#   Optional: leave conc blank to include gases in speciation calcs (output partial pressure etc.)
+#                    without adding the gas composition into solution
+#
+# log_fug: if not blank the gas fugacity will remain fixed at the log10(fugacity) value entered )
+#
+# name    conc   log_fug
+H2O(g)   .9986
+CO2(g)   99.
+'*'
+#
+######## PRINT FLAGS
+# iprt-spc 0 prints full speciation at initial T only but not the initial speciation after addition of gases
+#          1 prints full speciation at initial T for both no-gas and added-gas cases
+#          2 prints full speciation at tincp temperature intervals
+# tincp:  T increment at which to output data (must be greater or equal to tinc defined below)
+#
+# iprt_final:  0 or blank (default no effect)
+#              1 results in one additional (final) speciation calculation and T estimation with the
+#                reconstructed water (output in files  xxx_final.xxx). This option is only useful when minerals
+#                are reacted or when minerals are used to fixed the activity of a species.
+#
+#iprt-spc  tincp    iprt_final
+    2       5.
+#
+######## GEOTHERMOMETRY FLAGS
+# geot: "yes" for calcs "no" to skip
+# tstart tend:  starting and ending T for saturation indices and geothermometry calculations (typically 100 and 300C)
+# tinc:   T increment at which to evaluate saturation indices
+# min_elim: if min_elim >3 the list of minerals from which to infer temperature will be narrowed to the first min_elim number of
+#          minerals that cluster the best (suggested 10)
+# iscale: 0 no scaling of saturation indices
+#         1 scale saturation indices of silicates to 1x silica (suggested)
+#         2 scale saturation indices of all minerals by molecular weight/100
+#
+#geot  tstart  tend   tinc   min_elim   iscale
