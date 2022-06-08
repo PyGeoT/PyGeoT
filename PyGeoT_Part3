@@ -15,22 +15,22 @@ def extraerDataAgua(agua_id, data_filtrada):
     return data_agua
 
 
-def getMineralValues(grupos_20, grupos_minerales):
+def getMineralValues(groups_20, groups_minerals):
     cell_color = []
     cell_values = []
     mineral_rows = []
 
-    minerales = []
-    minerales_grupos = []
-    for id_grupo in grupos_20:
-        for mineral in grupos_minerales[id_grupo-1][1:]:
-            minerales.append(mineral)
+    minerals = []
+    minerals_groups = []
+    for id_grupo in groups_20:
+        for mineral in groups_minerals[id_grupo-1][1:]:
+            minerals.append(mineral)
 
-            if mineral not in minerales_grupos:
-                minerales_grupos.append(mineral)
+            if mineral not in minerals_groups:
+                minerals_groups.append(mineral)
 
-    mineral_freq = [minerales.count(m) for m in minerales_grupos]
-    x_pos_ = [i for i, _ in enumerate(minerales_grupos)]
+    mineral_freq = [minerals.count(m) for m in minerals_groups]
+    x_pos_ = [i for i, _ in enumerate(minerals_groups)]
 
     dict_min = {}
 
@@ -40,13 +40,13 @@ def getMineralValues(grupos_20, grupos_minerales):
     dict_min = {k: v for k, v in sorted(dict_min.items(), key=lambda item: item[1], reverse=True)}
 
     for k in dict_min:
-        mineral_rows.append(minerales_grupos[k])
+        mineral_rows.append(minerals_groups[k])
 
     for mineral in mineral_rows:
         tmp = []
         tmp_color = []
-        for id_grupo in grupos_20:
-            if mineral in grupos_minerales[id_grupo-1][1:]:
+        for id_grupo in groups_20:
+            if mineral in groups_minerals[id_grupo-1][1:]:
                 tmp.append('X')
                 tmp_color.append('#56b5fd')
             else:
@@ -58,14 +58,14 @@ def getMineralValues(grupos_20, grupos_minerales):
 
     mineral_rows = []
     for k in dict_min:
-        mineral_rows.append(minerales_grupos[k] + " (" + str(dict_min[k]) + ")")
+        mineral_rows.append(minerals_groups[k] + " (" + str(dict_min[k]) + ")")
 
     return mineral_rows, cell_values, cell_color
 
 
 data = np.loadtxt('newfile.txt', dtype='float')
-grupos_minerales = np.loadtxt('grupos.txt', dtype='str')
-minerales_grupos = np.loadtxt('minerales.txt', dtype='str')
+groups_minerals = np.loadtxt('groups.txt', dtype='str')
+minerals_groups = np.loadtxt('minerals.txt', dtype='str')
 
 data_filtrada = []
 for row in data:
@@ -95,9 +95,9 @@ for agua_id in range(agua_inicial, agua_final):
     if len(data_sorted[:, 10]) < num_grps:
         num_grps = len(data_sorted[:, 10])
 
-    grupos_20 = data_sorted[0:num_grps, 26].astype(int)
-    grupo_id_columns = grupos_20.astype(str)
-    mineral_rows, cell_values, cells_color = getMineralValues(grupos_20, grupos_minerales)
+    groups_20 = data_sorted[0:num_grps, 26].astype(int)
+    grupo_id_columns = groups_20.astype(str)
+    mineral_rows, cell_values, cells_color = getMineralValues(groups_20, groups_minerals)
 
 
     # example data
