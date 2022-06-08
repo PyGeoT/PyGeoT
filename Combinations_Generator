@@ -2,9 +2,9 @@ import numpy as np
 from itertools import combinations
 # from itertools import combinations_with_replacement
 
-minerals = np.loadtxt('minerals.txt', dtype='str')
+minerales = np.loadtxt('minerales.txt', dtype='str')
 
-combinaciones = combinations(minerals, 5)
+combinaciones = combinations(minerales, 5)
 
 
 extras = ['quartz', 'chalcedo']
@@ -17,6 +17,8 @@ for comb in combinaciones:
 
 file = open("grupos.txt", "w")
 
+no_grupo = 1
+
 for idx, grupo in enumerate(combinaciones_finales):
     if (('calcite' in grupo) and ('dolo-ord' in grupo)) or \
        (('muscovit' in grupo) and ('paragoni' in grupo)) or \
@@ -28,7 +30,12 @@ for idx, grupo in enumerate(combinaciones_finales):
        (('heulandi' in grupo) and ('clptil-K' in grupo)) or \
        (('anhydrit' in grupo) and ('gypsum' in grupo)):
         continue
-    file.write(str(idx+1) + ' ')
-    for mineral in grupo:
-        file.write(mineral + ' ')
-    file.write('\n')
+
+    if len(grupo) > 5: 
+
+        file.write(str(no_grupo) + ' ')
+        for mineral in grupo[:-1]:
+            file.write(mineral + ' ')
+        file.write(grupo[-1])
+        no_grupo += 1
+        file.write('\n')
