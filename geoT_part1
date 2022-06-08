@@ -1,0 +1,12 @@
+####################################################################
+# Program geoT annotated example input file # v2.08 N.S. 6/6/2016  #
+####################################################################
+#
+# All blank lines or those starting with # are not read on input (and can be removed)
+# All entries must appear in the order shown (in free format)
+#
+# Always use "#" as first character of comment lines
+# Blank lines are ignored
+# Strings can be in quotes or not but quotes are needed if string contains blanks except for the title
+#
+######## TITLE   (must come first one record below)
