@@ -29,11 +29,11 @@ geoT_part4 = geoT_part4.values
 geoT_part5 = pd.read_csv("geoT_part5.txt", header = None)
 geoT_part5 = geoT_part5.values
 
-grps = pd.read_csv("grupos.txt", header = None)
+grps = pd.read_csv("groups.txt", header = None)
 
 groups = []
 for group in grps.values:
-    groups.append(grouop[0].split(' '))
+    groups.append(group[0].split(' '))
 
 multi_db_data = np.loadtxt('InputWaters_database.txt', delimiter=' ')
 for idw, conc_data in enumerate(multi_db_data[0:5]):
