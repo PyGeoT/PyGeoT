@@ -1,0 +1,19 @@
+'*'
+#
+#
+#
+#repeat as many waters as desired starting with the ID record
+#
+####### END WATER record (always end with this record)
+end_waters
+#
+#
+#
+########OPTIONAL MIXING END-MEMBERS - FOR ADVANCED USE ONLY
+#flag (Yes/no)   If no or not there no further records are read
+#If yes enter mixing end-members that will be "de-mixed" from the other waters
+no
+#
+# if "no" is entered above there is no need to include the following records
+#############################################################################''')
+#
