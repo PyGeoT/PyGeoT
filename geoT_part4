@@ -1,0 +1,41 @@
+#
+#
+######## WATER COMPOSITIONS
+# ID:    40-character water ID
+# tc:    initial speciation temperature in (C)
+# keepic: unused
+#
+# stwf:  =0.0 no gas is added back into solution (no degassing correction)
+#        >0.0 and <1.0  steam (total gases) weight fraction in total discharge (for degassing corrections)
+#        >=1.0 sampling pressure in bar - in this case stwf is computed iteratively assuming isoenthalpic boiling
+# cfact: concentration factor  (1=no concentration > 1 for concentr < 1 for dilution)
+#          (multiplies input concentrations)
+# soldens (V1.5 and above):  solution density for concentration unit conversions in g/cc = kg/l - defaults to 1
+#
+# pmix:  Advanced use only: mixing proportions for each mixing endmembers (0 or blank =none 2 = 2:1 mixing etc)
+#        enter one pmix per mixing waters
+# name:   name of primary species (at minimum H+ and H2O) - any order
+# icon: 1 input concentration is total moles (for water total kg generally 1kg)
+#       2 constrained by equilibrium with specified mineral at given log(Q/K) but only at initialization temperature tc
+#       3 input concentration is activity (e.g. use for pH) (only at initialization temperature tc)
+#       4 input concentration will be adjusted for charge balance (at all temperatures)
+#         (!!! if the species charge sign is the same as the charge imbalance will not converge - then pick a species with opposite charge)
+#       5 constrained by equilibrium with specified mineral at given log(Q/K) but only at T=tstart and above (to avoid convergence problems at low T)
+#       6 constrained by equilibrium with specified mineral at given log(Q/K) at all temperatures
+#       7 input concentration is activity (e.g. use for pH) remains fixed at all temperatures
+# trial_c: initial guess for NR iterations (generally use same as input molalities)
+#          (affects initial speciation convergence but does not affect results)
+# input_c:  moles of dissolved species and kg of water
+#         V1.5 and above: other concentrations units can be entered if followed by the following strings
+#              (note case insensitive quotes are required if units contains a "/")
+#               ppm  ppb mgl ugl molar mmolar umolar molal mmolal umolal 'mg/L'  'ug/L'  'mmol/kg'  'umol/kg'  'mmol/L'  'umol/L'
+#               By default mass units are converted using the molecular weight of the primary species
+#               unless the element is specified as follows e.g.:  200 ppm as Si   (the "as" is required)
+#
+# name_eq: name of mineral fixing the concentration of that species (enabled when icon=2)
+# logqk:    desired saturation index of constraining mineral (enabled when icon=2)
+#
+# ID               tc     keepic        stwf         cfact   soldens   pmix(1 to nmix)
+Muestra            25.0      0         0.00          1.0
+#
+#name  icon   trial_c(molal)  input_c (mol)   name_eq  logqk
