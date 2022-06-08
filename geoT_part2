@@ -1,0 +1,35 @@
+#
+#
+# # thermodynamic database
+tk-slt.h06_jun16.dat
+#
+# ######## PRIMARY AQUEOUS SPECIES - always end the list with a star (in quotes or not)
+H+
+H2O
+Na+
+K+
+Mg+2
+Ca+2
+Fe+2
+Cl-
+SO4-2
+HCO3-
+SiO2(aq)
+Al+3
+'*'
+#
+# ######## MINERALS
+# name:  mineral name
+# iflag:  blank (default no reaction) or 1 to react mineral with solution (full reaction to equilibrium)
+# slqk:  desired log(Q/K) for reaction (only when iflag=1; leave blank or zero for equilibrium)
+#
+# Always end the list of minerals with a star (in quotes or not) even if no minerals are listed
+# If no minerals are given all possible minerals from the database will be considered in T estimations (not recommended)
+# T estimations are computed using the "min_elim" number of minerals that cluster the best at any T (min_elim is entered further below)
+# Optional entries as follow (either separately or both options together but must be in order shown!):
+#    - first mineral entry = "include_minerals": all minerals from the database will be considered but the
+#       minerals listed in subsequent records will always be included in T estimations regardless if they cluster or not (list must end with '*')
+#    - first mineral entry = "skip_minerals": all minerals from the database will be considered but the minerals listed
+#      in subsequent records will be excluded in T estimations (list must end with '*')
+#
+# name     iflag    slqk
