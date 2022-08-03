@@ -1,7 +1,7 @@
 import numpy as np
 
-data_file1 = np.loadtxt('file1.txt')
-data_file2 = np.loadtxt('file2.txt')
+data_file1 = np.loadtxt('file1.txt', skiprows=1)
+data_file2 = np.loadtxt('file2.txt', skiprows=1)
 
 fp = open('newfile.txt', "w")
 for i in range(len(data_file1)):
