@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import pandas as pd
+import subprocess
 
 lookup0 = '    1'
 lookup1 = '    2'
@@ -32,11 +33,12 @@ geoT_part5 = geoT_part5.values
 grps = pd.read_csv("groups.txt", header = None)
 
 groups = []
-for group in grps.values:
-    groups.append(group[0].split(' '))
+for grupo in grps.values:
+    groups.append(grupo[0].split(' '))
 
 multi_db_data = np.loadtxt('InputWaters_database.txt', delimiter=' ')
-for idw, conc_data in enumerate(multi_db_data[0:5]):
+for idw, conc_data in enumerate(multi_db_data[0:10]):
+    print("agua_ID: {}".format(idw+1))
     concNu = int(conc_data[0])
     concTmed = conc_data[1]
     concH = conc_data[2]
@@ -50,10 +52,10 @@ for idw, conc_data in enumerate(multi_db_data[0:5]):
     concSIO = conc_data[10]
     concAl = conc_data[11]
 
-##print(concNu, concTmed, concH, concNa, concK, concMg, concCa, concCl, concSO, concHCO, concSIO, concAl)
+##print(concNu, concTmed, concH, concNa, concK, concMg, concCa, concFe, concCl, concSO, concHCO, concSIO, concAl)
 
 
-    for idg, group in enumerate(groups):
+    for idg, grupo in enumerate(groups):
         fp = open ('geot.inp', "w")
 
         for line in geoT_part1:
@@ -64,7 +66,7 @@ for idw, conc_data in enumerate(multi_db_data[0:5]):
         for line in geoT_part2:
             fp.write(line[0]+ '\n')
 
-        for mineral in group[1:]:
+        for mineral in grupo[1:]:
             fp.write(mineral + '\n')
 
         for line in geoT_part3:
@@ -91,8 +93,12 @@ for idw, conc_data in enumerate(multi_db_data[0:5]):
             fp.write(line[0]+ '\n')
 
         fp.close()
-        
-        os.system('iGeoT1.0-PC64.exe<input_files')
+
+        mainpath="C:/Users/olgui/PycharmProjects/Descargados/" #Change the full path of the folder with the .exe file using "/" instead of "\"
+        p = subprocess.Popen([mainpath+"iGeoT1.0-PC64.exe"], stdout=subprocess.PIPE, stdin=subprocess.PIPE, creationflags=0x08000000)
+        p.stdin.write(b'geot.inp\nigeot.inp\n') 
+        p.communicate()[0]
+
         
         with open('geot.out') as geot_out:
             for  num, line in enumerate(geot_out, 1):
@@ -158,31 +164,31 @@ for idw, conc_data in enumerate(multi_db_data[0:5]):
                                         '\t\t' + str(minimumRMED).strip() + '\t\t' + str(RMSE).strip() + '\t\t' + str(minimumRMSE).strip() + '\t\t' + str(SDEV).strip() + '\t\t' + str(minimumSDEV).strip() +
                                         '\t\t' + str(MEAN).strip() + '\t\t' + str(minimumMEAN).strip() + '\t\t' + str(crossAverage).strip() + '\t\t' + str(TcrossSDEV).strip() +
                                         '\t\t' + str(Trangea).strip() + '\t\t' + str(Trangeb).strip() +
-                                        '\t\t' + str(Tspread).strip() + '\t\t' +  str(Trmed).strip() + '\t\t' + str(nmin).strip() + '\t\t' + str(group[0]).strip() + '\n')
+                                        '\t\t' + str(Tspread).strip() + '\t\t' +  str(Trmed).strip() + '\t\t' + str(nmin).strip() + '\t\t' + str(grupo[0]).strip() + '\n')
 
             with open('igeot.par') as myFile:
                       for num, line in enumerate(myFile, 1):
                           if lookup0 in line:
-                              fp3 = open('res_AlMg.txt', "a")
+                              fp3 = open('file2.txt', "a")
                               Alopt = line[6:28]
                               fp3.write(str(Alopt) + '       ')
 
                           elif lookup1 in line:
-                              fp3 = open('res_AlMg.txt', "a")
+                              fp3 = open('file2.txt', "a")
                               Mgopt = line[6:28]
                               fp3.write(str(Mgopt) + '       ')
 
             with open('igeot.out') as myFile:
                       for num, line in enumerate(myFile, 1):
                           if lookup3 in line:
-                              fp3 = open('res_AlMg.txt', "a")
+                              fp3 = open('file2.txt', "a")
                               Alstdev = line[88:99]
                               Alsens = line[111:119]
                               fp3.write(str(Alstdev) + '       ')
                               fp3.write(str(Alsens) + '       ')
 
                           elif lookup4 in line:
-                              fp3 = open('res_AlMg.txt', "a")
+                              fp3 = open('file2.txt', "a")
                               Mgstdev = line[88:99]
                               Mgsens = line[111:119]
                               fp3.write(str(Mgstdev) + '     ')
