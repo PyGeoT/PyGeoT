@@ -17,5 +17,7 @@ gypsum
 montm-Mg
 beide-Na
 paragoni
+quartz
+chalcedo
 
-Quartz and chalcedony were omitted from the list since they are already included in the Combinations_generator script. 
+#In case the user desires to modify this list, it is necessary to delete quartz and chalcedo from the list since they are already included in the Combinations_generator script. 
