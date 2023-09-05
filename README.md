@@ -47,6 +47,6 @@ If you use this project's script for your academic work, we encourage you to cit
 
 Please feel free to contact us for any questions. We will be happy to help.<br>
 
-- Email: olguinm@cicese.edu.mx, peiffer@cicese.mx, angello.hoyos@cimat.mx
+- Email: olguinpyngu@gmail.com, peiffer@cicese.mx, angello.hoyos@cimat.mx
 
 
