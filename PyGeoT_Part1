@@ -94,7 +94,8 @@ for idw, conc_data in enumerate(multi_db_data[0:10]):
 
         fp.close()
 
-        mainpath="C:/Users/olgui/PycharmProjects/Descargados/" #Change the full path of the folder with the .exe file using "/" instead of "\"
+        directory = os.getcwd()
+        mainpath = directory + "/"
         p = subprocess.Popen([mainpath+"iGeoT1.0-PC64.exe"], stdout=subprocess.PIPE, stdin=subprocess.PIPE, creationflags=0x08000000)
         p.stdin.write(b'geot.inp\nigeot.inp\n') 
         p.communicate()[0]
